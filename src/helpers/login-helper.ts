@@ -67,3 +67,5 @@ export class LoginHelper extends PageActionsHelper {
         await this.clickOn(homePage.continueButton);
     }
 }
+
+

@@ -1,17 +1,19 @@
 import { Browser, Page, chromium, selectors } from 'playwright';
 import moment, { Moment } from 'moment';
+import { PageValidationsHelper } from './page-validations-helpers';
 
-export class PageActionsHelper {
+export class PageActionsHelper extends PageValidationsHelper {
 
     private page: Page 
     
     constructor(page: any) {
+        super(page);
         this.page = page;
     }
 
     async navigateTo(url: string) {
         await this.page.goto(url);
-
+        await this.waitForPageLoad();
     }
 
 
@@ -57,6 +59,22 @@ export class PageActionsHelper {
 
     async fillFieldWithFutureDate(selector: string, days: number, format: string = 'YYYY-MM-DD') {
         const date: string = moment().add(days, 'days').format(format);
-        await this.fillField(selector, date)  
+        await this.fillField(selector, date);
+        await this.waitForPageLoad();
+    }
+
+    async selectOption(selector: string, value: any) {
+        await this.page.locator(selector).selectOption(value);
+        await this.waitForPageLoad();
+    }
+
+    async decrypt_password(encodedPassword: string) {
+        const decodedPassword: string = Buffer.from(encodedPassword, 'base64').toString('utf-8');
+        return decodedPassword;
+    }
+
+    async enterPassword(selector: string, encodedPassword: string) {
+        const password: string = await this.decrypt_password(encodedPassword);
+        await this.fillField(selector, password);
     }
 }

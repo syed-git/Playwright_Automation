@@ -1,16 +1,17 @@
 import { Browser, Page, chromium, selectors } from 'playwright';
 import moment, { Moment } from 'moment';
+import { CommonHelper } from './CommonHelper';
 
 export class PageValidationsHelper {
 
-    private page: Page 
+    private page1: Page 
     
-    constructor(page: any) {
-        this.page = page;
+    constructor(page1: any) {
+        this.page1 = page1;
     }
 
     async waitForElement(selector: string, condition: string, maxTime: number = 120) {
-        const element = this.page.locator(selector); // Adjust the selector as needed
+        const element = this.page1.locator(selector); // Adjust the selector as needed
         let flag: boolean = false;
         let end: number = maxTime;
         let index: number = 0;
@@ -36,7 +37,7 @@ export class PageValidationsHelper {
 
 
     async validateElementExists(selector: string) {
-        const element = await this.page.$(selector);
+        const element = await this.page1.$(selector);
 
         if(element) {
             return true;
@@ -55,7 +56,7 @@ export class PageValidationsHelper {
 
     async seeTitleContains(expectedTitle: string, exactMatch: boolean  = false) {
 
-        const actualTitle: string = await this.page.title();
+        const actualTitle: string = await this.page1.title();
         if (exactMatch) {
             if (expectedTitle !== actualTitle) {
                 throw new Error(`Failed: Expecetd title: ${expectedTitle} || Actual title: ${actualTitle}`)
@@ -69,5 +70,26 @@ export class PageValidationsHelper {
 
     async seeElementPresent(selector: string, condition: string ) {
         await this.waitForElement(selector, condition);
+    }
+
+    async seeElementContains(selector: string, expectedText: string, exactMatch: boolean = false, ) {
+        let actualText: any = await this.page1.locator(selector).textContent();
+        if (exactMatch) {
+            if (expectedText !== actualText) {
+                throw new Error(`Failed: Expected: ${expectedText} || Actual: ${actualText}`);
+            }
+        } else {
+            if (!actualText.includes(expectedText)) {
+                throw new Error(`Failed: Expected: ${expectedText} || Actual: ${actualText}`);
+            }
+        }
+    }
+
+    async seeElementDoesNotExists(selector: string) {
+        const exist: boolean = await this.validateElementExists(selector);
+
+        if (exist) {
+            throw new Error(`Failed: Expected element to not exist but element exist on the page`)
+        }
     }
 }

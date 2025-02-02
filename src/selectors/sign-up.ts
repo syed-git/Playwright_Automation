@@ -4,5 +4,33 @@ export const signUp = {
     signUpEmail: '//h2[text()="New User Signup!"]//following-sibling::form//child::input[contains(@name,"email")]',
     name: 'input[name="name"]',
     signUpButton: '//button[text()="Signup"]',
-    newUserSignUp: '//h2[text()="New User Signup!"]'
+    newUserSignUp: '//h2[text()="New User Signup!"]',
+    enterAccountInfo: '//b[contains(text(),"Enter Account Information")]',
+    title: {
+        mr: 'input[id=id_gender1]',
+        mrs: 'input[id=id_gender2]'
+    },
+    password: 'input[id=password]',
+    dobDay: 'select[id=days]',
+    dobMonth: 'select[id=months]',
+    dobYear: 'select[id=years]',
+    newsLetterCheckbox: 'input[name=newsletter]',
+    receiveSpecialOffer: 'input[name=optin]',
+    fisrtName: 'input[id=first_name]',
+    lastName: 'input[id=last_name]',
+    company: 'input[id=company]',
+    address1: 'input[id=address1]',
+    address2: 'input[id=address2]',
+    country: 'select[id=country]',
+    state: 'input[id=state]',
+    city: 'input[id=city]',
+    zipCode: 'input[id=zipcode]',
+    mobileNumber: 'input[id=mobile_number]',
+    createAccount: '//button[text()="Create Account"]',
+    loginEmail: '//h2[text()="Login to your account"]//following-sibling::form//child::input[contains(@name,"email")]',
+    loginPassword: 'input[name=password]',
+    loginButton: '//button[text()="Login"]',
+    accountCreated: '//b[text()="Account Created!"]',
+    continueButton: '//a[text()="Continue"]'
+
 }

@@ -1,6 +1,5 @@
+import moment from 'moment';
 import { Browser, Page, chromium, selectors } from 'playwright';
-import moment, { Moment } from 'moment';
-import { CommonHelper } from './CommonHelper';
 
 export class PageValidationsHelper {
 
@@ -30,6 +29,7 @@ export class PageValidationsHelper {
             }
 
             if (!flag && index === end) {
+                await this.getScreenshot();
                 throw new Error(`element is not ${condition} after waiting for the maximum time out`)
             }
         }
@@ -50,6 +50,7 @@ export class PageValidationsHelper {
         const elementExist = this.validateElementExists(selector);
 
         if (!elementExist) {
+            await this.getScreenshot();
             throw new Error(`element does not exist`)
         }
     }
@@ -59,10 +60,12 @@ export class PageValidationsHelper {
         const actualTitle: string = await this.page1.title();
         if (exactMatch) {
             if (expectedTitle !== actualTitle) {
+                await this.getScreenshot();
                 throw new Error(`Failed: Expecetd title: ${expectedTitle} || Actual title: ${actualTitle}`)
             }
         } else {
             if (!actualTitle.includes(expectedTitle)) {
+                await this.getScreenshot();
                 throw new Error(`Failed: Expecetd title: ${expectedTitle} || Actual title: ${actualTitle}`)
             }
         }
@@ -76,10 +79,12 @@ export class PageValidationsHelper {
         let actualText: any = await this.page1.locator(selector).textContent();
         if (exactMatch) {
             if (expectedText !== actualText) {
+                await this.getScreenshot();
                 throw new Error(`Failed: Expected: ${expectedText} || Actual: ${actualText}`);
             }
         } else {
             if (!actualText.includes(expectedText)) {
+                await this.getScreenshot();
                 throw new Error(`Failed: Expected: ${expectedText} || Actual: ${actualText}`);
             }
         }
@@ -89,7 +94,28 @@ export class PageValidationsHelper {
         const exist: boolean = await this.validateElementExists(selector);
 
         if (exist) {
+            await this.getScreenshot();
             throw new Error(`Failed: Expected element to not exist but element exist on the page`)
         }
     }
+
+    async getScreenshot() {
+            const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
+            const title: string = (await this.page1.title()).replace(/[^a-zA-Z0-9]/g, '');
+    
+            const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
+    
+            await this.page1.screenshot({
+                path: `${filePath}/${title}_${dateAndTime}.png`,  // file path
+                fullPage: true,           // capture the full page
+                clip: {                   // capture a specific region (x, y, width, height)
+                  x: 0,
+                  y: 0,
+                  width: 800,
+                  height: 600
+                },
+                type: 'jpeg',             // specify the format (png or jpeg)
+                quality: 80               // set quality for JPEG (0-100)
+              });
+        }
 }

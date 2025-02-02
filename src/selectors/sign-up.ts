@@ -31,6 +31,7 @@ export const signUp = {
     loginPassword: 'input[name=password]',
     loginButton: '//button[text()="Login"]',
     accountCreated: '//b[text()="Account Created!"]',
-    continueButton: '//a[text()="Continue"]'
+    continueButton: '//a[text()="Continue"]',
+    errorMessage: '//p[contains(text(),"password is incorrect")]'
 
 }

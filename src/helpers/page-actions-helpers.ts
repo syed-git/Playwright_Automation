@@ -38,6 +38,7 @@ export class PageActionsHelper extends PageValidationsHelper {
             await this.page.locator(selector).click();
             await this.waitForPageLoad();
         } else {
+            await this.getScreenshot();
             throw new Error('could not find the element, so unable to click the element')
         }
     }
@@ -76,5 +77,39 @@ export class PageActionsHelper extends PageValidationsHelper {
     async enterPassword(selector: string, encodedPassword: string) {
         const password: string = await this.decrypt_password(encodedPassword);
         await this.fillField(selector, password);
+    }
+
+    async getScreenshot() {
+        const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
+        const title: string = (await this.page.title()).replace(/[^a-zA-Z0-9]/g, '');
+
+        const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
+
+        await this.page.screenshot({
+            path: `${filePath}/${title}_${dateAndTime}.png`,  // file path
+            fullPage: true,           // capture the full page
+            clip: {                   // capture a specific region (x, y, width, height)
+              x: 0,
+              y: 0,
+              width: 800,
+              height: 600
+            },
+            type: 'jpeg',             // specify the format (png or jpeg)
+            quality: 80               // set quality for JPEG (0-100)
+          });
+    }
+
+    async getRandomNumber(length: number) {
+        if (length < 1) {
+            throw new Error('Length must be at least 1');
+          }
+          
+          // Generate a random number with the given length (number of digits)
+          const min = Math.pow(10, length - 1); // Minimum value for the given length
+          const max = Math.pow(10, length) - 1; // Maximum value for the given length
+          
+          // Generate the random number within the range
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        
     }
 }

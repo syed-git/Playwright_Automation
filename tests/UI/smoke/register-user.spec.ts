@@ -5,7 +5,7 @@ import { PageValidationsHelper } from '../../../src/helpers/page-validations-hel
 import { signUp } from '../../../src/selectors/sign-up';
 import { env } from '../../../environments/environment';
 
-test('Register a user #build', async ({ page }) => {
+test('Register a user #smoke', async ({ page }) => {
 
     const pageActions = new PageActionsHelper(page);
     const pageValidations = new PageValidationsHelper(page);
@@ -18,7 +18,7 @@ test('Register a user #build', async ({ page }) => {
     await pageValidations.seeElementPresent(signUp.newUserSignUp, 'visible');
     await pageValidations.seeElementExists(signUp.loginToYourAccount);
     await pageActions.fillField(signUp.name, env.sit.register.name);
-    await pageActions.fillField(signUp.signUpEmail, env.sit.register.email);
+    await pageActions.fillField(signUp.signUpEmail, `user.test${await pageActions.getRandomNumber(5)}@gmail.com`);
     await pageActions.clickOn(signUp.signUpButton);
     await pageValidations.seeElementContains(signUp.enterAccountInfo, 'Enter Account Information', true);
     await pageActions.clickOn(signUp.title.mr);

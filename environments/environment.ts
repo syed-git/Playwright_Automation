@@ -8,7 +8,7 @@ export const env = {
             fisrtName: 'Syed',
             lastName: 'Zubair',
             company: 'TCS',
-            email: 'syedzubair22@gmail.com',
+            email: 'syedzubair44@gmail.com',
             password: 'U3lARWQ0IzQ=',
             date: '20',
             month: 10,

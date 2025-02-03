@@ -8,7 +8,7 @@
     "test-parallel": "npmx playwright test --workers 5",
     "regression": "npx playwright test -g '@regression'",
     "smoke": "npx playwright test -g '@smoke'",
-    "test-tag": "npx playwright test --grep"
+    "test-tag": "playwright test --grep"
   },
   "repository": {
     "type": "git",

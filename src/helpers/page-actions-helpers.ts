@@ -1,6 +1,7 @@
 import { Browser, Page, chromium, selectors } from 'playwright';
 import moment, { Moment } from 'moment';
 import { PageValidationsHelper } from './page-validations-helpers';
+import path from 'path';
 
 export class PageActionsHelper extends PageValidationsHelper {
 
@@ -45,9 +46,9 @@ export class PageActionsHelper extends PageValidationsHelper {
 
     async jsClick(selector: string) {
         await this.page.evaluate(() => {
-            const button = document.querySelector(selector);
+            const button: any = document.querySelector(selector);  // Replace with your selector
             if (button) {
-              ;  // This simulates clicking the button using JS
+              button.click();  // Simulate a click using JavaScript
             }
           });
     }
@@ -79,26 +80,6 @@ export class PageActionsHelper extends PageValidationsHelper {
         await this.fillField(selector, password);
     }
 
-    async getScreenshot() {
-        const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
-        const title: string = (await this.page.title()).replace(/[^a-zA-Z0-9]/g, '');
-
-        const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
-
-        await this.page.screenshot({
-            path: `${filePath}/${title}_${dateAndTime}.png`,  // file path
-            fullPage: true,           // capture the full page
-            clip: {                   // capture a specific region (x, y, width, height)
-              x: 0,
-              y: 0,
-              width: 800,
-              height: 600
-            },
-            type: 'jpeg',             // specify the format (png or jpeg)
-            quality: 80               // set quality for JPEG (0-100)
-          });
-    }
-
     async getRandomNumber(length: number) {
         if (length < 1) {
             throw new Error('Length must be at least 1');
@@ -111,5 +92,35 @@ export class PageActionsHelper extends PageValidationsHelper {
           // Generate the random number within the range
           return Math.floor(Math.random() * (max - min + 1)) + min;
         
+    }
+
+    async uploadFile (selector: string, fileName: string) {
+        try {
+            const currentDir: string = __dirname;
+            const projectRoot: string = path.resolve(currentDir, '..', '..');
+            const fileLocation: string = path.join(projectRoot, 'test-data', fileName);
+
+            const fileInput: any = await this.page.locator(selector);
+            await fileInput.setInputFiles(fileLocation);
+            await this.waitForPageLoad()
+            console.log(`file: ${fileName} uploaded successfully.`)
+            await this.getScreenshot();
+        } catch (err) {
+            await this.getScreenshot();
+            console.log(err);
+        }
+        
+    }
+
+    async acceptAlert() {
+        await this.page.on('dialog', async (dialog) => {
+            // Accept the alert
+            await dialog.accept();
+          });
+    }
+
+    async pressKeys(key: string) {
+        await this.page.keyboard.press(key);
+        await this.waitForPageLoad();
     }
 }

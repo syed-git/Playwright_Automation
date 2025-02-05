@@ -7,5 +7,7 @@ export const homePage = {
     accountDeleted: '//b[text()="Account Deleted!"]',
     continueButton: '//a[text()="Continue"]',
     logout: '//a[contains(text(),"Logout")]',
-    contactUs: '//a[text()=" Contact us"]'
+    contactUs: '//a[text()=" Contact us"]',
+    testCaseLink: '//a[text()=" Test Cases"]',
+    productsLink: '//a[text()=" Products"]'
 }

@@ -10,5 +10,9 @@ export const contactUs = {
     accountDeleted: '//b[text()="Account Deleted!"]',
     continueButton: '//a[text()="Continue"]',
     logout: '//a[contains(text(),"Logout")]',
-    contactUs: '//a[text()=" Contact us"]'
+    contactUs: '//a[text()=" Contact us"]',
+    fileInput: 'input[type="file"]',
+    // submitButton: 'input[name=submit]',
+    submitButton: 'button#Submit',
+    successMessage: '//div[contains(text(),"Your details have been submitted")]'
 }

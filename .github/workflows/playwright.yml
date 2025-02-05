@@ -7,7 +7,7 @@ on:
     branches:
     - '**'
 jobs:
-  build test:
+  build:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +32,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
-  smoke test:
+  smoke:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

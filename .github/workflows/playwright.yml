@@ -23,12 +23,12 @@ jobs:
       run: npx playwright test --grep '#build' --project=chromium
     - name: Run Playwright build tests on firefox
       run: npx playwright test --grep '#build' --project=firefox
-    - name: Run Playwright build tests on webkitwebkit
+    - name: Run Playwright build tests on webkit
       run: npx playwright test --grep '#build' --project=chromium
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-build-tests
         path: playwright-report/
         retention-days: 30
 
@@ -54,6 +54,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-smoke-tests
         path: playwright-report/
         retention-days: 30

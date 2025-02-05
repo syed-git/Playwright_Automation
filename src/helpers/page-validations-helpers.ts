@@ -121,7 +121,7 @@ export class PageValidationsHelper {
                 width: 800,
                 height: 600
             },
-            type: 'jpeg',             // specify the format (png or jpeg)
+            type: 'jpeg',             // specify the format (png or jpeg) 
             quality: 80               // set quality for JPEG (0-100)
         });
     }

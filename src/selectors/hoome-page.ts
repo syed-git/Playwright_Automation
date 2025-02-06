@@ -9,5 +9,8 @@ export const homePage = {
     logout: '//a[contains(text(),"Logout")]',
     contactUs: '//a[text()=" Contact us"]',
     testCaseLink: '//a[text()=" Test Cases"]',
-    productsLink: '//a[text()=" Products"]'
+    productsLink: '//a[text()=" Products"]',
+    cart: '//a[text()=" Cart"]',
+    apiTestingLink: '//a[text()=" API Testing"]',
+    videoTutorialLink: '//a[text()=" Video Tutorials"]'
 }

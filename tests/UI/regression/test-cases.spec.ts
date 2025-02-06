@@ -16,6 +16,5 @@ test('Verify test cases page is displayed - #testcases', async ({ page }) => {
     await pageValidations.seeElementExists(homePage.home);
     await pageActions.clickOn(homePage.testCaseLink);
     await pageValidations.seeTitleContains(testCases.pageTitle, true);
-    await page.pause();
     await pageValidations.seeElementContains(testCases.testCases, 'Test Cases', true);
 });

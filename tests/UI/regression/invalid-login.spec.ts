@@ -1,10 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { PageActionsHelper } from '../../../src/helpers/page-actions-helpers';
 import { homePage } from '../../../src/selectors/hoome-page';
 import { PageValidationsHelper } from '../../../src/helpers/page-validations-helpers';
 import { signUp } from '../../../src/selectors/sign-up';
 import { env } from '../../../environments/environment';
-import { LoginHelper } from '../../../src/helpers/login-helper';
 
 
 test('Verify Error message for invalid login attempt - #error #regression', async ({ page }) => {

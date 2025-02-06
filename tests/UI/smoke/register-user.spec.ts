@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { PageActionsHelper } from '../../../src/helpers/page-actions-helpers';
 import { homePage } from '../../../src/selectors/hoome-page';
 import { PageValidationsHelper } from '../../../src/helpers/page-validations-helpers';

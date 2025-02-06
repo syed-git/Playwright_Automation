@@ -1,13 +1,13 @@
-import { Browser, Page, chromium, selectors } from 'playwright';
-import moment, { Moment } from 'moment';
+import { Page } from 'playwright';
 import { PageValidationsHelper } from './page-validations-helpers';
 import path from 'path';
+import moment from 'moment';
 
 export class PageActionsHelper extends PageValidationsHelper {
 
     private page: Page 
     
-    constructor(page: any) {
+    constructor(page: Page) {
         super(page);
         this.page = page;
     }
@@ -23,7 +23,7 @@ export class PageActionsHelper extends PageValidationsHelper {
         state = await this.page.evaluate(() => {
             return document.readyState;
           });
-          let end: number = time;
+          const end: number = time;
           let index: number = 0;
           while (!state && index < end) {
             state = await this.page.evaluate(() => {
@@ -103,11 +103,10 @@ export class PageActionsHelper extends PageValidationsHelper {
             const fileInput: any = await this.page.locator(selector);
             await fileInput.setInputFiles(fileLocation);
             await this.waitForPageLoad()
-            console.log(`file: ${fileName} uploaded successfully.`)
             await this.getScreenshot();
-        } catch (err) {
+        } catch (err: any) {
             await this.getScreenshot();
-            console.log(err);
+            throw new Error(err.toString());
         }
         
     }

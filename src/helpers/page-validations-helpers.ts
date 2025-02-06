@@ -1,8 +1,6 @@
 import moment from 'moment';
-import { Browser, Page, chromium, selectors } from 'playwright';
+import { Page } from 'playwright';
 import { promises as fs } from 'fs';
-import path from 'path';
-
 
 export class PageValidationsHelper {
 
@@ -15,7 +13,7 @@ export class PageValidationsHelper {
     async waitForElement(selector: string, condition: string, maxTime: number = 120) {
         const element = this.page1.locator(selector); // Adjust the selector as needed
         let flag: boolean = false;
-        let end: number = maxTime;
+        const end: number = maxTime;
         let index: number = 0;
 
         if (index === 0) {
@@ -46,8 +44,8 @@ export class PageValidationsHelper {
             if(element) {
                 return true;
             }
-        } catch (err) {
-            console.log(err)
+        } catch (err: any) {
+            throw new Error(err.toString());
         }
         return false;
     }
@@ -83,7 +81,7 @@ export class PageValidationsHelper {
     }
 
     async seeElementContains(selector: string, expectedText: string, exactMatch: boolean = false, ) {
-        let actualText: any = await this.page1.locator(selector).textContent();
+        const actualText: any = await this.page1.locator(selector).textContent();
         if (exactMatch) {
             if (expectedText !== actualText) {
                 await this.getScreenshot();
@@ -130,9 +128,8 @@ export class PageValidationsHelper {
         try {
           // Check if the directory exists
           await fs.mkdir(dirPath, { recursive: false });
-          console.log(`Directory created: ${dirPath}`);
-        } catch (error) {
-          console.error('Error creating directory:', error);
+        } catch (error: any) {
+            throw new Error(error.toString()); 
         }
     }
 }

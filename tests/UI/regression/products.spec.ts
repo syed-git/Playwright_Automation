@@ -1,11 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { PageActionsHelper } from '../../../src/helpers/page-actions-helpers';
 import { homePage } from '../../../src/selectors/hoome-page';
 import { PageValidationsHelper } from '../../../src/helpers/page-validations-helpers';
-import { testCases } from '../../../src/selectors/test-cases';
 import { env } from '../../../environments/environment';
 import { products } from '../../../src/selectors/products';
-
 
 
 test('Verify product details - #products', async ({ page }) => {

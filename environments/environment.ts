@@ -3,6 +3,7 @@ export const env = {
         baseUrl: 'https://automationexercise.com/',
         userName: "syedzubair1@gmail.com",
         password: "U3lARWQ0IzQ=",
+        browserType: 'chromium',
         register: {
             name: 'Syed Zubair',
             fisrtName: 'Syed',

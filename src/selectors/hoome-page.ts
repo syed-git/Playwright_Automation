@@ -6,5 +6,11 @@ export const homePage = {
     loggedInAs: '//a[contains(text(),"Logged in as")]',
     accountDeleted: '//b[text()="Account Deleted!"]',
     continueButton: '//a[text()="Continue"]',
-    logout: '//a[contains(text(),"Logout")]'
+    logout: '//a[contains(text(),"Logout")]',
+    contactUs: '//a[text()=" Contact us"]',
+    testCaseLink: '//a[text()=" Test Cases"]',
+    productsLink: '//a[text()=" Products"]',
+    cart: '//a[text()=" Cart"]',
+    apiTestingLink: '//a[text()=" API Testing"]',
+    videoTutorialLink: '//a[text()=" Video Tutorials"]'
 }

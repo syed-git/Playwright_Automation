@@ -23,7 +23,7 @@ export class LoginHelper extends PageActionsHelper {
         await this.seeElementDoesNotExists(homePage.loggedInAs);
     }
 
-    async registerUser(testData: any) {
+    async registerUser() {
         const email: string = `user.test${await this.getRandomNumber(5)}@gmail.com`
         await this.navigateTo(env.sit.baseUrl);
         await this.seeTitleContains(homePage.pageTitle);

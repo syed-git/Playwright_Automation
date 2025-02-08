@@ -1,5 +1,6 @@
 import moment from 'moment';
-import { Browser, Page, chromium, selectors } from 'playwright';
+import { Page } from 'playwright';
+import { promises as fs } from 'fs';
 
 export class PageValidationsHelper {
 
@@ -12,7 +13,7 @@ export class PageValidationsHelper {
     async waitForElement(selector: string, condition: string, maxTime: number = 120) {
         const element = this.page1.locator(selector); // Adjust the selector as needed
         let flag: boolean = false;
-        let end: number = maxTime;
+        const end: number = maxTime;
         let index: number = 0;
 
         if (index === 0) {
@@ -37,10 +38,14 @@ export class PageValidationsHelper {
 
 
     async validateElementExists(selector: string) {
-        const element = await this.page1.$(selector);
+        try {
+            const element = await this.page1.$(selector);
 
-        if(element) {
-            return true;
+            if(element) {
+                return true;
+            }
+        } catch (err: any) {
+            throw new Error(err.toString());
         }
         return false;
     }
@@ -76,7 +81,7 @@ export class PageValidationsHelper {
     }
 
     async seeElementContains(selector: string, expectedText: string, exactMatch: boolean = false, ) {
-        let actualText: any = await this.page1.locator(selector).textContent();
+        const actualText: any = await this.page1.locator(selector).textContent();
         if (exactMatch) {
             if (expectedText !== actualText) {
                 await this.getScreenshot();
@@ -100,22 +105,32 @@ export class PageValidationsHelper {
     }
 
     async getScreenshot() {
-            const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
-            const title: string = (await this.page1.title()).replace(/[^a-zA-Z0-9]/g, '');
-    
-            const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
-    
-            await this.page1.screenshot({
-                path: `${filePath}/${title}_${dateAndTime}.png`,  // file path
-                fullPage: true,           // capture the full page
-                clip: {                   // capture a specific region (x, y, width, height)
-                  x: 0,
-                  y: 0,
-                  width: 800,
-                  height: 600
-                },
-                type: 'jpeg',             // specify the format (png or jpeg)
-                quality: 80               // set quality for JPEG (0-100)
-              });
+        const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
+        const title: string = (await this.page1.title()).replace(/[^a-zA-Z0-9]/g, '');
+
+        const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
+        await this.createDirectoryIfNotExists(filePath);
+        await this.page1.screenshot({
+            path: `${filePath}/${title}_${dateAndTime}.png`,  // file path
+            fullPage: true,           // capture the full page
+            clip: {                   // capture a specific region (x, y, width, height)
+                x: 0,
+                y: 0,
+                width: 800,
+                height: 600
+            },
+            type: 'jpeg',             // specify the format (png or jpeg) 
+            quality: 80               // set quality for JPEG (0-100)
+        });
+    }
+
+    async createDirectoryIfNotExists(dirPath: string) {
+        try {
+          // Check if the directory exists
+          await fs.mkdir(dirPath, { recursive: false });
+        } catch (error: any) {
+            throw new Error(error.toString()); 
         }
+    }
 }
+    

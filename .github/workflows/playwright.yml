@@ -7,7 +7,7 @@ on:
     branches:
     - '**'
 jobs:
-  test:
+  check-code-quality:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -17,15 +17,63 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright build tests
-      run: npx playwright test --grep '#build'
-    - name: Run Playwright smoke tests
-      run: npx playwright test --grep '#smoke'
+    - name: Run Eslint rules
+      run: npx eslint .
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: eslint
+        path: playwright-report/
+        retention-days: 30
+
+  build:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    needs: check-code-quality
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright build tests on chromium
+      run: npx playwright test --grep '#build' --project=chromium
+    - name: Run Playwright build tests on firefox
+      run: npx playwright test --grep '#build' --project=firefox
+    - name: Run Playwright build tests on webkit
+      run: npx playwright test --grep '#build' --project=chromium
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-build-tests
+        path: playwright-report/
+        retention-days: 30
+
+  smoke:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright smoke tests on chromium
+      run: npx playwright test --grep '#smoke' --project=chromium
+    - name: Run Playwright smoke tests on firefox
+      run: npx playwright test --grep '#smoke' --project=firefox
+    - name: Run Playwright smoke tests on webkit
+      run: npx playwright test --grep '#smoke' --project=webkit
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-smoke-tests
         path: playwright-report/
         retention-days: 30

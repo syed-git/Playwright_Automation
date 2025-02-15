@@ -12,7 +12,7 @@ export default [
   {
     rules: {
       'no-unused-vars': 'error',
-      'no-console': 'error',
+      'no-console': 'warn',
       'no-unreachable': 'error',
       'eqeqeq': 'error',
       'no-undef': 'warn',

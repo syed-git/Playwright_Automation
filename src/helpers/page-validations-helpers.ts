@@ -39,9 +39,9 @@ export class PageValidationsHelper {
 
     async validateElementExists(selector: string) {
         try {
-            const element = await this.page1.$(selector);
+            const element = await this.page1.locator(selector).count();
 
-            if(element) {
+            if(element > 0) {
                 return true;
             }
         } catch (err: any) {

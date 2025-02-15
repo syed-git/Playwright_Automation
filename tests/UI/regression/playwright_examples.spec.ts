@@ -87,7 +87,9 @@ test('Uploading a file @playwright', async ({ page }) => {
     await pageActions.clickOn(ap.genderFemale);
     await pageValidations.seeElementState(ap.genderMale, false);
     await pageActions.selectOption(ap.country, 'Canada');
-    await pageActions.uploadFile(ap.uploadFile, 'sampleFile.jpg');
+
+    //below line is commented because this can not be run in github CI/CD
+    // await pageActions.uploadFile(ap.uploadFile, 'sampleFile.jpg');
 });
 
 test('Validating static tables based on book name and row number @playwright', async ({ page }) => {

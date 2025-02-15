@@ -39,9 +39,9 @@ export class PageValidationsHelper {
 
     async validateElementExists(selector: string) {
         try {
-            const element = await this.page1.$(selector);
+            const element = await this.page1.locator(selector).count();
 
-            if(element) {
+            if(element > 0) {
                 return true;
             }
         } catch (err: any) {
@@ -132,5 +132,73 @@ export class PageValidationsHelper {
             throw new Error(error.toString()); 
         }
     }
+
+    async seeElementState(selector: string, expCondition: any, exactMatch: boolean = false) {
+
+        const element: any = await this.page1.$(selector);
+        
+        // Check if the element exists
+        if (!element) {
+            throw new Error(`Element does not exist on the page.`)
+        }
+   
+        const elementType = await element.evaluate((el: { type: any; }) => el.type);
+        // Get the element type
+        
+        // Switch statement to handle different element types
+        switch (elementType) {
+
+            case 'checkbox': {
+                // If it's a checkbox, check if it's checked
+                const isChecked = await element.isChecked();
+                if (isChecked !== expCondition) {
+                    throw new Error(`Checkbox expected to be ${expCondition} but found to be ${isChecked}`);
+                }
+                break;
+            }
+
+            case 'radio': {
+                // If it's a radio button, check if it's selected
+                const isRadioSelected = await element.isChecked();
+                if (isRadioSelected !== expCondition) {
+                    throw new Error(`Radio button expected to be ${expCondition} but found to be ${isRadioSelected}`);
+                }
+                break;
+            }
+
+            case 'text':
+            case 'password':
+            case 'textarea': {
+                // get value from input field
+                const actualValue = await this.page1.locator(selector).inputValue();
+                if (exactMatch) {
+                    if (expCondition !== actualValue) {
+                        throw new Error(`Expected text: ${expCondition} but actual text: ${actualValue}`);
+                    }
+                } else {
+                    if (!actualValue.includes(expCondition)) {
+                        throw new Error(`Actual text: ${actualValue} does not have expected text: ${expCondition}`);
+                    }
+                }
+                break;
+            }
+
+            default: {
+                // For non-form elements, fetch the text content
+                const textContent = await element.textContent();
+                if (exactMatch) {
+                    
+                    if (textContent !== expCondition) {
+                        throw new Error(`Actual text: ${textContent} does not have expected text: ${expCondition}`);
+                    }
+                } else {
+                    if (!textContent?.includes(expCondition)) {
+                        throw new Error(`Actual text: ${textContent} does not have expected text: ${expCondition}`)
+                    }
+                }
+            break;
+            }
+        }
+      }
 }
     

@@ -111,15 +111,57 @@ export class PageActionsHelper extends PageValidationsHelper {
         
     }
 
-    async acceptAlert() {
-        await this.page.on('dialog', async (dialog) => {
+    async alert(action: string, customText: string = '') {
+        let message: string = '';
+        this.page.on('dialog', async (dialog) => {
             // Accept the alert
-            await dialog.accept();
+            switch (action) {
+                case 'accept':
+                    await dialog.accept();
+                    break;
+                case 'dismiss':
+                    await dialog.dismiss();
+                    break;
+                case 'prompt-accept':
+                    await dialog.accept(customText);
+                    break;
+                case 'message':
+                    message = dialog.message();
+                    break;
+            }
           });
+          return message;
     }
 
     async pressKeys(key: string) {
         await this.page.keyboard.press(key);
         await this.waitForPageLoad();
+    }
+
+    async getAllElements(selector: string) {
+        const elements: any = this.page.locator(selector).all();
+        return elements;
+    }
+
+    async getElementText(element: any) {
+        const text: string | null  = element.textContent();
+        return text;
+    }
+
+    async getElementCount(selector: string) {
+        
+        return await this.page.locator(selector).count();
+    }
+
+    async getText(selector: string) {
+        
+        return await this.page.locator(selector).textContent();
+    }
+
+    async dragElment(sourceSelector: string, targetSelector: string) {
+        
+        const source = await this.page.locator(sourceSelector); 
+        const target = await this.page.locator(targetSelector);
+        await source.dragTo(target);
     }
 }

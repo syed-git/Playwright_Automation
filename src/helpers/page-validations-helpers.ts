@@ -127,7 +127,7 @@ export class PageValidationsHelper {
     async createDirectoryIfNotExists(dirPath: string) {
         try {
           // Check if the directory exists
-          await fs.mkdir(dirPath, { recursive: false });
+          await fs.mkdir(dirPath, { recursive: true });
         } catch (error: any) {
             throw new Error(error.toString()); 
         }

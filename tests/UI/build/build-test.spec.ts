@@ -14,7 +14,7 @@ test('Register a user - #build', async ({ page }) => {
 
     const loginHelper = new LoginHelper(page);
 
-    const flag = await loginHelper.registerUser(undefined);
+    const flag = await loginHelper.registerUser();
     if (flag) {
         await loginHelper.deleteAccount();
     }

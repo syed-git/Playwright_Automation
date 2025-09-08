@@ -52,7 +52,7 @@ export class PageValidationsHelper {
 
     async seeElementExists(selector: string) {
 
-        const elementExist = this.validateElementExists(selector);
+        const elementExist = await this.validateElementExists(selector);
 
         if (!elementExist) {
             await this.getScreenshot();
@@ -105,7 +105,7 @@ export class PageValidationsHelper {
     }
 
     async getScreenshot() {
-        const filePath: string = 'D:/szubair/Projects/Automation/Plywright_Automation_Testing/Playwright_Automation/test-results/screenshots'
+        const filePath: string = './test-results/screenshots'
         const title: string = (await this.page1.title()).replace(/[^a-zA-Z0-9]/g, '');
 
         const dateAndTime = moment().format('YYYY-MM-DDHH-mm-ss-SSS');
@@ -127,7 +127,7 @@ export class PageValidationsHelper {
     async createDirectoryIfNotExists(dirPath: string) {
         try {
           // Check if the directory exists
-          await fs.mkdir(dirPath, { recursive: false });
+          await fs.mkdir(dirPath, { recursive: true });
         } catch (error: any) {
             throw new Error(error.toString()); 
         }

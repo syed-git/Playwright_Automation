@@ -15,6 +15,7 @@ export async function launchBrowser(): Promise<Page | undefined> {
         context = await browser.newContext();
         page = await context.newPage();
         return page;
+        
     } else if (browserType === 'firefox') {
         browser = await firefox.launch({ headless: false});
         context = await browser.newContext();

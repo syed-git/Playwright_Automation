@@ -8,9 +8,11 @@
     "test-chrome": "npx playwright test -g '#build' --project=chromium --headed",
     "test-parallel": "npx playwright test --workers 5",
     "regression": "npx playwright test -g '@regression'",
-    "smoke": "npx playwright test -g '@smoke'",
+    "smoke": "npx playwright test --grep smoke --headed --project=chromium && node scripts/generateHTMLReport.js",
     "test-tag": "playwright test --grep",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "generate-report": "node scripts/generateHTMLReport.js",
+    "test-and-report": "npx playwright test && node scripts/generateHTMLReport.js"
   },
   "repository": {
     "type": "git",
